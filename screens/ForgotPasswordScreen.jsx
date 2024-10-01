@@ -9,6 +9,7 @@ const ForgotPasswordScreen = ({navigation}) => {
         navigation.navigate('VerifyCodeScreen');
       }
    
+      
   return (
     <View style={styles.container}>
       <Image source={require("../assets/images/logo/logo.png")} />
