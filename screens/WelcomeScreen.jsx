@@ -19,11 +19,12 @@ const WellcomScreen = ({ navigation }) => {
       <View style={styles.welcomeTextContainer}>
         <Font>
           <Text style={styles.welcomeText}>
-            From the <span style={styles.highlighText}>latest</span> to the{" "}
-            <span style={styles.highlighText}>greatest</span> hits, play your
+            From the <Text style={styles.highlighText}>latest</Text> to the{" "}
+            <Text style={styles.highlighText}>greatest</Text> hits, play your
             favorite tracks on{" "}
-            <span style={styles.nameAppText}>EnjoyMusic</span> <br /> Now!
+            <Text style={styles.nameAppText}>EnjoyMusic</Text>
           </Text>
+          <Text style={styles.nowText}>Now!</Text>
         </Font>
         <TouchableOpacity style={styles.button} onPress={startedHandle}>
           <Text style={styles.welcomeText}>Get Started</Text>
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
     fontSize: 27,
     textAlign: "center",
     fontWeight: "bold",
-    padding: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   highlighText: {
     color: "#FFD700",
@@ -81,5 +83,13 @@ const styles = StyleSheet.create({
     height: 50,
     width: "80%",
     justifyContent: "center",
+  },
+  nowText: {
+    color: "white",
+    fontSize: 27,
+    textAlign: "center",
+    fontWeight: "bold",
+    marginBottom: 20,
+   
   },
 });
