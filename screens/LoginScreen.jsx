@@ -4,6 +4,13 @@ import Font from "../components/Font";
 import Input from "../components/Input";
 import { CheckBox } from "react-native-elements";
 import ButtonCustom from "../components/ButtonCustom";
+import {
+  GoogleSignin,
+  isErrorWithCode,
+  statusCodes,
+  GoogleSigninButton,
+} from "@react-native-google-signin/google-signin";
+import auth from "@react-native-firebase/auth";
 
 const HorizontalLineWithText = ({ text }) => {
   return (
@@ -25,6 +32,40 @@ const LoginScreens = ({ navigation }) => {
   const handleForgetPassword = () => {
     navigation.navigate("ForgotPasswordScreen");
   };
+
+  GoogleSignin.configure({
+    webClientId:
+      "987610914970-gmbnelqv6kck2pk55ev3r0kic5i7fbb2.apps.googleusercontent.com",
+  });
+
+  const signInWithGoogle = async () => {
+    console.log("Running here")
+    try {
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+      const response = await GoogleSignin.signIn();
+
+      const googleCredential = auth.GoogleAuthProvider.credential(
+        response.data?.idToken || ""
+      );
+      return auth().signInWithCredential(googleCredential).then(() => {
+        navigation.navigate("Home");
+      });
+    } catch (error) {
+      if (isErrorWithCode(error)) {
+        switch (error.code) {
+          case statusCodes.IN_PROGRESS:
+            break;
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            break;
+          default:
+        }
+      } else {
+      }
+    }
+  };
+
 
   return (
     <View style={styles.container}>
@@ -61,7 +102,7 @@ const LoginScreens = ({ navigation }) => {
 
       {/* orther Login */}
       <View style={styles.logoContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={signInWithGoogle}>
           <Image source={require("../assets/images/logo/google.png")} />
         </TouchableOpacity>
         <TouchableOpacity>

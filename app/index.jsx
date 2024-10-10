@@ -8,6 +8,8 @@ import SignUpScreen from "../screens/SignUpScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import VerifyCodeScreen from "../screens/VerifyCodeScreen";
 import NewPasswordScreen from "../screens/NewPasswordScreen";
+import Login from "../screens/Login";
+import Home from "../screens/Home";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,12 +24,10 @@ const index = () => {
       <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-      <Stack.Screen
-        name="ForgotPasswordScreen"
-        component={ForgotPasswordScreen}
-      />
+      <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen}/>
       <Stack.Screen name="VerifyCodeScreen" component={VerifyCodeScreen} />
       <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
+      <Stack.Screen name = "Home" component={Home} />
     </Stack.Navigator>
   );
 };
