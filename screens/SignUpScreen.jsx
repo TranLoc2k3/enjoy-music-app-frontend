@@ -1,13 +1,49 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, {useState} from "react";
 import Font from "../components/Font";
 import Input from "../components/Input";
 import ButtonCustom from "../components/ButtonCustom";
+import auth from "@react-native-firebase/auth";
 
 const SignUpScreen = ({navigation}) => {
-    const handleLogin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleLogin = () => {
+      navigation.navigate('LoginScreen');
+  }
+
+  const signup = () => {
+    auth()
+      .createUserWithEmailAndPassword(
+        email,
+        password
+      )
+      .then(() => {
+        console.log("User account created & signed in!");
         navigation.navigate('LoginScreen');
+      })
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          console.log("That email address is already in use!");
+        }
+        if (error.code === "auth/invalid-email") {
+          console.log("That email address is invalid!");
+        }
+        console.error(error);
+      });
+  }
+
+  const handleSignUp = () => {
+    if(password === confirmPassword){
+      signup();
+    }else{
+      alert("Password and Confirm Password are not the same");
     }
+  }
+
+
   return (
     <View style={styles.container}>
       <Image source={require("../assets/images/logo/logo.png")} />
@@ -15,18 +51,18 @@ const SignUpScreen = ({navigation}) => {
         <Text style={styles.signupText}>Sign Up</Text>
       </Font>
       {/* Input */}
-      <Input placeholder="User name" iconName="user"></Input>
-      <Input placeholder="Email" iconName="mail"></Input>
-      <Input placeholder="Password" iconName="lock" iconRight={true}></Input>
+      <Input placeholder="Email" iconName="mail" onChangeText={setEmail}></Input>
+      <Input placeholder="Password" iconName="lock" iconRight={true} onChangeText={setPassword}></Input>
       <Input
         placeholder="Confirm Password"
         iconName="lock"
         iconRight={true}
+        onChangeText={setConfirmPassword}
       ></Input>
 
       {/* Button Sign Up*/}
       <View style={styles.buttonContainer}>
-        <ButtonCustom title="Sign Up"></ButtonCustom>
+        <ButtonCustom title="Sign Up" onPress={handleSignUp}></ButtonCustom>
       </View>
 
       <View style={styles.loginContainer}>

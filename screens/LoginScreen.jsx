@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Font from "../components/Font";
 import Input from "../components/Input";
 import { CheckBox } from "react-native-elements";
@@ -11,6 +11,7 @@ import {
   GoogleSigninButton,
 } from "@react-native-google-signin/google-signin";
 import auth from "@react-native-firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const HorizontalLineWithText = ({ text }) => {
   return (
@@ -24,6 +25,18 @@ const HorizontalLineWithText = ({ text }) => {
 
 const LoginScreens = ({ navigation }) => {
   const [isChecked, setIsChecked] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState();
+
+  GoogleSignin.configure({
+    webClientId:
+      "987610914970-gmbnelqv6kck2pk55ev3r0kic5i7fbb2.apps.googleusercontent.com",
+  });
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user); // 
+  }
 
   const handleSignUp = () => {
     navigation.navigate("SignUpScreen");
@@ -33,22 +46,26 @@ const LoginScreens = ({ navigation }) => {
     navigation.navigate("ForgotPasswordScreen");
   };
 
-  GoogleSignin.configure({
-    webClientId:
-      "987610914970-gmbnelqv6kck2pk55ev3r0kic5i7fbb2.apps.googleusercontent.com",
-  });
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
 
   const signInWithGoogle = async () => {
-    console.log("Running here")
     try {
       await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true,
       });
       const response = await GoogleSignin.signIn();
 
+      if (!response.data?.idToken) {
+        console.log('Google Sign In was unsuccessful. Try again later.');
+        return;
+      }
       const googleCredential = auth.GoogleAuthProvider.credential(
-        response.data?.idToken || ""
+        response.data.idToken
       );
+
       return auth().signInWithCredential(googleCredential).then(() => {
         navigation.navigate("Home");
       });
@@ -66,6 +83,17 @@ const LoginScreens = ({ navigation }) => {
     }
   };
 
+  const signInWithEmailAndPassword =() => {
+    auth()
+      .signInWithEmailAndPassword(userName, password)
+      .then(() => {
+        // Successfully signed in
+        navigation.navigate("Home");
+      })
+      .catch((error) => {
+        console.log("Error Code: ", error.code);
+      })
+  }
 
   return (
     <View style={styles.container}>
@@ -76,8 +104,9 @@ const LoginScreens = ({ navigation }) => {
       <Font>
         <Text style={styles.loginText}>Login</Text>
       </Font>
-      <Input placeholder="User name" iconName="user"></Input>
-      <Input placeholder="Password" iconName="lock" iconRight={true}></Input>
+      <Input placeholder="User name" iconName="user" onChangeText={setUserName}></Input>
+      <Input placeholder="Password" iconName="lock" iconRight={true} onChangeText={setPassword}></Input>
+
 
       {/* Checkbox Remember me */}
       <View style={styles.checkboxContainer}>
@@ -91,7 +120,7 @@ const LoginScreens = ({ navigation }) => {
       </View>
 
       {/* Button Login*/}
-      <ButtonCustom title="Login"></ButtonCustom>
+      <ButtonCustom title="Login" onPress={signInWithEmailAndPassword}></ButtonCustom>
       {/*forget password*/}
       <TouchableOpacity onPress={handleForgetPassword}>
         <Text style={styles.forgetText}>Forget the password?</Text>

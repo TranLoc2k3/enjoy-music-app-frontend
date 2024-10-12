@@ -16,12 +16,12 @@
       "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.tranlocexpo.EnjoyMusicApp",
-      "googleServicesFile": "./google-services.json"
+      "package": "com.tranlocexpo.EnjoyMusicApp"
     },
     "web": {
       "bundler": "metro",
@@ -34,6 +34,7 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "logging": "none"
   }
 }

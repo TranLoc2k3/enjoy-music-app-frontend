@@ -12,7 +12,20 @@
           "package_name": "com.tranlocexpo.EnjoyMusicApp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "987610914970-a1ljl9d4ojgb2vg6o7k3314hbi4qqegr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tranlocexpo.EnjoyMusicApp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "987610914970-gmbnelqv6kck2pk55ev3r0kic5i7fbb2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBy1O9dS82CZysP6ricaVlyGJZF2JwzzPs"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987610914970-gmbnelqv6kck2pk55ev3r0kic5i7fbb2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

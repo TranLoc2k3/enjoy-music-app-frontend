@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather"; // Import icon từ react-native-vector-icons
 
-const Input = ({ placeholder, iconName, iconRight }) => {
+const Input = ({ placeholder, iconName, iconRight, onChangeText }) => {
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const togglePasswordVisibility = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -19,6 +19,7 @@ const Input = ({ placeholder, iconName, iconRight }) => {
         placeholder={placeholder}
         placeholderTextColor="#999"
         secureTextEntry={iconRight ? secureTextEntry : false}
+        onChangeText={onChangeText}
       />
       {/* Hiển thị icon nếu có iconright*/}
 

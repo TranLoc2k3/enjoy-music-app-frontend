@@ -1,13 +1,21 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, {useState} from "react";
 import Font from "../components/Font";
 import Input from "../components/Input";
 import ButtonCustom from "../components/ButtonCustom";
+import auth from "@react-native-firebase/auth";
 
 const ForgotPasswordScreen = ({navigation}) => {
-    const handleVerifyCode = () => {
-        navigation.navigate('VerifyCodeScreen');
-      }
+  const [email, setEmail] = useState("");
+
+  const handleVerifyCode = () => {
+    auth()
+    .sendPasswordResetEmail(email)
+    .then(() => alert("Check your email to reset password"))
+    .catch((error) => {
+      console.log(error.message); // Log lỗi chi tiết hơn
+    });
+  }
    
       
   return (
@@ -21,7 +29,7 @@ const ForgotPasswordScreen = ({navigation}) => {
         password via email.
       </Text>
       {/* Input */}
-      <Input placeholder="Email" iconName="mail" iconRight={false}></Input>
+      <Input placeholder="Email" iconName="mail" iconRight={false} onChangeText={setEmail}></Input>
       <TouchableOpacity style={styles.otherWayContainer} > 
         <Text style={styles.ortherWayText}>Try another way</Text>
         </TouchableOpacity>
